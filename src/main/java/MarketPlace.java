@@ -89,25 +89,35 @@ public class MarketPlace {
                 for (Product productOfUser : user.getUserProducts()) {
                     if (productOfUser.equals(product)) {
                         System.out.println(user.getFirstName() + " " + user.getLastName());
+                        break;
                     }
                 }
             }
         }
+        System.out.println("Product not found.");
     }
 
     public void deleteUser(String idUser) {
         var user = searchUser(idUser);
-        users.remove(user);
+        if (user != null) {
+            users.remove(user);
+        } else {
+            System.out.println("User not found.");
+        }
     }
 
     public void deleteProduct(String idProduct) {
         var product = searchProduct(idProduct);
-        products.remove(product);
-
-        for (User user : users) {
-            user.removeProduct(product);
+        if (product != null) {
+            products.remove(product);
+            for (User user : users) {
+                user.removeProduct(product);
+            }
+        } else {
+            System.out.println("Product not found.");
         }
     }
 }
+
 
 

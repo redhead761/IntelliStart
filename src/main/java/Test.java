@@ -96,9 +96,13 @@ public class Test {
     private static void onDeleteProduct(MarketPlace marketPlace, Test test, Scanner scanner) {
         System.out.print("Please enter name`s product: ");
         String name = scanner.nextLine();
-        String idProduct = test.searchIdOfProduct(marketPlace, name);
 
-        marketPlace.deleteProduct(idProduct);
+        try {
+            String idProduct = test.searchIdOfProduct(marketPlace, name);
+            marketPlace.deleteProduct(idProduct);
+        } catch (NullPointerException ex) {
+            System.out.println("Product not found.");
+        }
     }
 
     private static void onDeleteUser(MarketPlace marketPlace, Test test, Scanner scanner) {
@@ -108,15 +112,14 @@ public class Test {
         String lastName = scanner.nextLine();
 
         String idUser = test.searchIdOfUser(marketPlace, firstName, lastName);
-
         marketPlace.deleteUser(idUser);
     }
 
     private static void onDisplayUsersBoughtProduct(MarketPlace marketPlace, Test test, Scanner scanner) {
         System.out.print("Please enter name`s product: ");
         String name = scanner.nextLine();
-        String idProduct = test.searchIdOfProduct(marketPlace, name);
 
+        String idProduct = test.searchIdOfProduct(marketPlace, name);
         marketPlace.showUsersBoughtProduct(idProduct);
     }
 
@@ -126,9 +129,12 @@ public class Test {
         System.out.print("Please, enter last name`s user: ");
         String lastName = scanner.nextLine();
 
-        String idUser = test.searchIdOfUser(marketPlace, firstName, lastName);
-
-        marketPlace.showUserProducts(idUser);
+        try {
+            String idUser = test.searchIdOfUser(marketPlace, firstName, lastName);
+            marketPlace.showUserProducts(idUser);
+        } catch (NullPointerException ex) {
+            System.out.println("User not found.");
+        }
     }
 
     private static void onBuyProductSelected(MarketPlace marketPlace, Test test, Scanner scanner) {
@@ -136,7 +142,6 @@ public class Test {
         String firstName = scanner.nextLine();
         System.out.print("Please, enter last name`s user: ");
         String lastName = scanner.nextLine();
-
         String idUser = test.searchIdOfUser(marketPlace, firstName, lastName);
 
         System.out.print("Please enter name`s product: ");
@@ -164,7 +169,7 @@ public class Test {
             double amountOfMoney = scanner.nextDouble();
             marketPlace.addUser(firstName, lastName, amountOfMoney);
         } catch (InputMismatchException e) {
-            System.out.print("You entered invalid value.");
+            System.out.println("You entered invalid value.");
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }

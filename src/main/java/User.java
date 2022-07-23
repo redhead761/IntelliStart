@@ -13,7 +13,7 @@ public class User {
 
     public User(@NotNull String firstName, @NotNull String lastName, double amountOfMoney) {
         if (firstName.isBlank() || lastName.isBlank()) {
-            throw new IllegalArgumentException("First or last name cannot be empty");
+            throw new IllegalArgumentException("First and last name cannot be empty");
         }
         if (amountOfMoney < 0) {
             throw new IllegalArgumentException("Amount of money cannot be less 0.");
