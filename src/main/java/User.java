@@ -45,7 +45,7 @@ public class User {
     }
 
     public void setAmountOfMoney(double amountOfMoney) {
-        if (amountOfMoney > 0) {
+        if (amountOfMoney >= 0) {
             this.amountOfMoney = amountOfMoney;
         } else {
             System.out.println(("Amount of money сan not be less than zero."));

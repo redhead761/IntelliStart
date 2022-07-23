@@ -44,10 +44,8 @@ public class MarketPlace {
     public User searchUser(String idUser) {
         User result = null;
         for (User user : users) {
-            if (user.getId().equalsIgnoreCase(idUser)) {
+            if (user.getId().equals(idUser)) {
                 result = user;
-            } else {
-                System.out.println("User not found");
             }
         }
         return result;
@@ -58,21 +56,29 @@ public class MarketPlace {
         for (Product product : products) {
             if (product.getId().equalsIgnoreCase(idProduct)) {
                 result = product;
-            } else {
-                System.out.println("Product not found");
             }
         }
         return result;
     }
 
-    public void buyProduct(String idUser, String idProduct) {
+    public void buyProduct(String idUser, String idProduct) throws BuyException {
         var user = searchUser(idUser);
         var product = searchProduct(idProduct);
+
+        if ((user.getAmountOfMoney() - product.getPrice()) < 0) {
+            throw new BuyException("You don't have enough money");
+        }
 
         user.setAmountOfMoney(user.getAmountOfMoney() - product.getPrice());
         user.addProductForUser(product);
         product.addUserBoughtProduct(user);
         System.out.println("Purchase successful");
+    }
+
+    class BuyException extends Exception{
+        public BuyException(String message){
+            super (message);
+        }
     }
 
     public void showUserProducts(String idUser) {

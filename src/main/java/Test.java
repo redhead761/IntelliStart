@@ -1,9 +1,31 @@
 import java.util.Scanner;
 
 public class Test {
-    public static void main(String[] args) {
+
+    public String SearchIdOfProduct(MarketPlace marketPlace, String name) {
+        String result = "Product not found";
+        for (Product product : marketPlace.getProducts()) {
+            if (product.getName().equals(name)) {
+                result = product.getId();
+            }
+        }
+        return result;
+    }
+
+    public String SearchIfOfUser(MarketPlace marketPlace, String firstName, String lastName) {
+        String result = "User not found";
+        for (User user : marketPlace.getUsers()) {
+            if (user.getFirstName().equals(firstName) && user.getLastName().equals(lastName)) {
+                result = user.getId();
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) throws MarketPlace.BuyException {
 
         MarketPlace marketPlace = new MarketPlace();
+        Test test = new Test();
 
         while (true) {
             System.out.println("Please, input number:\n" +
@@ -48,21 +70,36 @@ public class Test {
             } else if (userInput.equals("4")) {
                 marketPlace.showProducts();
             } else if (userInput.equals("5")) {
-                System.out.print("Please, enter id user: ");
-                String idUser = scanner.nextLine();
+                System.out.print("Please, enter first name's user: ");
+                String firstName = scanner.nextLine();
+                System.out.print("Please, enter last name`s user: ");
+                String lastName = scanner.nextLine();
 
-                System.out.print("Please enter id product: ");
-                String idProduct = scanner.nextLine();
+                String idUser = test.SearchIfOfUser(marketPlace, firstName, lastName);
 
-                marketPlace.buyProduct(idUser, idProduct);
+                System.out.print("Please enter name`s product: ");
+                String name = scanner.nextLine();
+                String idProduct = test.SearchIdOfProduct(marketPlace, name);
+
+                try {
+                    marketPlace.buyProduct(idUser, idProduct);
+                }
+                catch (MarketPlace.BuyException ex){
+                    System.out.println(ex.getMessage());
+                }
             } else if (userInput.equals("6")) {
-                System.out.print("Please, enter id user: ");
-                String idUser = scanner.nextLine();
+                System.out.print("Please, enter first name's user: ");
+                String firstName = scanner.nextLine();
+                System.out.print("Please, enter last name`s user: ");
+                String lastName = scanner.nextLine();
+
+                String idUser = test.SearchIfOfUser(marketPlace, firstName, lastName);
 
                 marketPlace.showUserProducts(idUser);
             } else if (userInput.equals("7")) {
-                System.out.print("Please enter id product: ");
-                String idProduct = scanner.nextLine();
+                System.out.print("Please enter name`s product: ");
+                String name = scanner.nextLine();
+                String idProduct = test.SearchIdOfProduct(marketPlace, name);
 
                 marketPlace.showUsersBoughtProduct(idProduct);
             } else if (userInput.equals("8")) {
