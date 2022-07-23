@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MarketPlace {
-    private List<Product> products = new ArrayList<>();
-    private List<User> users = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
     public List<Product> getProducts() {
         return products;
@@ -14,19 +14,11 @@ public class MarketPlace {
     }
 
     public void addProduct(String name, double price) {
-        if (price > 0) {
-            products.add(new Product(name, price));
-        } else {
-            System.out.println("Price сan not be less than zero.");
-        }
+        products.add(new Product(name, price));
     }
 
     public void addUser(String firstName, String lastName, double amountOfMoney) {
-        if (amountOfMoney > 0) {
-            users.add(new User(firstName, lastName, amountOfMoney));
-        } else {
-            System.out.println("Amount of money сan not be less than zero.");
-        }
+        users.add(new User(firstName, lastName, amountOfMoney));
     }
 
     public void showProducts() {
@@ -46,6 +38,7 @@ public class MarketPlace {
         for (User user : users) {
             if (user.getId().equals(idUser)) {
                 result = user;
+                break;
             }
         }
         return result;
@@ -56,29 +49,23 @@ public class MarketPlace {
         for (Product product : products) {
             if (product.getId().equalsIgnoreCase(idProduct)) {
                 result = product;
+                break;
             }
         }
         return result;
     }
 
-    public void buyProduct(String idUser, String idProduct) throws BuyException {
+    public void buyProduct(String idUser, String idProduct) {
         var user = searchUser(idUser);
         var product = searchProduct(idProduct);
 
         if ((user.getAmountOfMoney() - product.getPrice()) < 0) {
-            throw new BuyException("You don't have enough money");
+            throw new IllegalStateException("You don't have enough money");
         }
 
         user.setAmountOfMoney(user.getAmountOfMoney() - product.getPrice());
         user.addProductForUser(product);
-        product.addUserBoughtProduct(user);
         System.out.println("Purchase successful");
-    }
-
-    class BuyException extends Exception {
-        public BuyException(String message) {
-            super(message);
-        }
     }
 
     public void showUserProducts(String idUser) {
@@ -94,11 +81,16 @@ public class MarketPlace {
 
     public void showUsersBoughtProduct(String idProduct) {
         var product = searchProduct(idProduct);
-        //Check for empty list
-        if (!product.getUsersBoughtProduct().isEmpty()) {
-            //Show users
-            for (User user : product.getUsersBoughtProduct()) {
-                System.out.println(user.getFirstName() + " " + user.getLastName());
+        //User in users
+        for (User user : users) {
+            //Check for empty
+            if (!user.getUserProducts().isEmpty()) {
+                //Product of user
+                for (Product productOfUser : user.getUserProducts()) {
+                    if (productOfUser.equals(product)) {
+                        System.out.println(user.getFirstName() + " " + user.getLastName());
+                    }
+                }
             }
         }
     }

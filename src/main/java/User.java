@@ -1,15 +1,23 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class User {
     private final String id;
-    private String firstName;
-    private String lastName;
+    private final String firstName;
+    private final String lastName;
     private double amountOfMoney;
-    private List<Product> userProducts = new ArrayList<>();
+    private final List<Product> userProducts = new ArrayList<>();
 
-    public User(String firstName, String lastName, double amountOfMoney) {
+    public User(@NotNull String firstName, @NotNull String lastName, double amountOfMoney) {
+        if (firstName.isBlank() || lastName.isBlank()) {
+            throw new IllegalArgumentException("First or last name cannot be empty");
+        }
+        if (amountOfMoney < 0) {
+            throw new IllegalArgumentException("Amount of money cannot be less 0.");
+        }
         this.firstName = firstName;
         this.lastName = lastName;
         this.amountOfMoney = amountOfMoney;
@@ -28,16 +36,8 @@ public class User {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public double getAmountOfMoney() {
@@ -48,7 +48,7 @@ public class User {
         if (amountOfMoney >= 0) {
             this.amountOfMoney = amountOfMoney;
         } else {
-            System.out.println(("Amount of money сan not be less than zero."));
+            throw new IllegalArgumentException("Amount of money сan not be less than zero.");
         }
     }
 
@@ -56,9 +56,7 @@ public class User {
         userProducts.add(product);
     }
 
-    public void removeProduct (Product product){
-        if (userProducts.contains(product)){
-            userProducts.remove(product);
-        }
+    public void removeProduct(Product product) {
+        userProducts.remove(product);
     }
 }
