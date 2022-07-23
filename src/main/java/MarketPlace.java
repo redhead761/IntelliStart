@@ -75,9 +75,9 @@ public class MarketPlace {
         System.out.println("Purchase successful");
     }
 
-    class BuyException extends Exception{
-        public BuyException(String message){
-            super (message);
+    class BuyException extends Exception {
+        public BuyException(String message) {
+            super(message);
         }
     }
 
@@ -101,7 +101,21 @@ public class MarketPlace {
                 System.out.println(user.getFirstName() + " " + user.getLastName());
             }
         }
-
     }
 
+    public void deleteUser(String idUser) {
+        var user = searchUser(idUser);
+        users.remove(user);
+    }
+
+    public void deleteProduct(String idProduct) {
+        var product = searchProduct(idProduct);
+        products.remove(product);
+
+        for (User user : users) {
+            user.removeProduct(product);
+        }
+    }
 }
+
+

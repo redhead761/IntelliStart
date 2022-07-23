@@ -36,7 +36,9 @@ public class Test {
                     "5.Buy product\n" +
                     "6.Display list of user products\n" +
                     "7.Display list of users that bought product\n" +
-                    "8.Close");
+                    "8.Delete user\n" +
+                    "9.Delete product\n" +
+                    "10.Close");
             Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine();
 
@@ -83,8 +85,7 @@ public class Test {
 
                 try {
                     marketPlace.buyProduct(idUser, idProduct);
-                }
-                catch (MarketPlace.BuyException ex){
+                } catch (MarketPlace.BuyException ex) {
                     System.out.println(ex.getMessage());
                 }
             } else if (userInput.equals("6")) {
@@ -103,6 +104,21 @@ public class Test {
 
                 marketPlace.showUsersBoughtProduct(idProduct);
             } else if (userInput.equals("8")) {
+                System.out.print("Please, enter first name's user: ");
+                String firstName = scanner.nextLine();
+                System.out.print("Please, enter last name`s user: ");
+                String lastName = scanner.nextLine();
+
+                String idUser = test.SearchIfOfUser(marketPlace, firstName, lastName);
+
+                marketPlace.deleteUser(idUser);
+            } else if (userInput.equals("9")) {
+                System.out.print("Please enter name`s product: ");
+                String name = scanner.nextLine();
+                String idProduct = test.SearchIdOfProduct(marketPlace, name);
+
+                marketPlace.deleteProduct(idProduct);
+            } else if (userInput.equals("10")) {
                 break;
             } else {
                 System.out.println("You entered incorrect value.");

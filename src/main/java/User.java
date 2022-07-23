@@ -55,4 +55,10 @@ public class User {
     public void addProductForUser(Product product) {
         userProducts.add(product);
     }
+
+    public void removeProduct (Product product){
+        if (userProducts.contains(product)){
+            userProducts.remove(product);
+        }
+    }
 }
